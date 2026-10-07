@@ -1,12 +1,12 @@
 # ==============================================================================
-# EJERCICIOS - DIA 2 (version ESTUDIANTE)
-# Curso: Introduccion a la programacion y analisis de datos en R (v2026.2)
+# EJERCICIOS - DÍA 2 (versión ESTUDIANTE)
+# Curso: Introducción a la programación y análisis de datos en R (v2026.2)
 # Filip Andras - CIMCYC, Universidad de Granada
 #
-# Como usar este script:
-#   1. Lee el enunciado de cada ejercicio (lineas comentadas).
-#   2. Escribe tu codigo donde pone TU_CODIGO_AQUI.
-#   3. Ejecuta cada linea con Ctrl/Cmd + Enter y mira la consola.
+# Cómo usar este script:
+#   1. Lee el enunciado de cada ejercicio (líneas comentadas).
+#   2. Escribe tu código donde pone TU_CODIGO_AQUI.
+#   3. Ejecuta cada línea con Ctrl/Cmd + Enter y mira la consola.
 # ==============================================================================
 
 # --- Paquetes -----------------------------------------------------------------
@@ -14,7 +14,7 @@
 # install.packages(c("tidyverse", "here"))
 
 library(tidyverse)   # read_csv(), select(), filter(), mutate(), ...
-library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data", ...)
+library(here)        # rutas desde la raíz del proyecto: here("data", "raw_data", ...)
 
 
 # ==============================================================================
@@ -26,11 +26,11 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 
 # 1. Abre RStudio con doble clic en `exercises/exercises.Rproj`
 # 2. Abre el script `scripts/02_day2_exercises_student.R` (este archivo)
-# 3. Comprueba la raiz con `here()`: es tu carpeta `exercises/`?
+# 3. Comprueba la raíz con `here()`: ¿es tu carpeta `exercises/`?
 
 # TU_CODIGO_AQUI
 
-## EJERCICIO 2: convertir codigo anidado a pipe ----
+## EJERCICIO 2: convertir código anidado a pipe ----
 # Tiempo: 5 minutos
 
 # Reescribe estos fragmentos usando el pipe `|>`:
@@ -45,10 +45,10 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 
 # 1. Carga el ensayo:
 #    data_trial <- read_csv(here("data", "raw_data", "data_clinical_trial.csv"))
-# 2. Exploralo: `glimpse(data_trial)`, `head(data_trial)`, `View(data_trial)`
-# 3. Carga `data_sites.csv` con `read_csv()` y `here()` (esta en `data/raw_data/`)
-# 4. Guardalo en un objeto llamado `sites`
-# 5. Explora con `glimpse(sites)`: cuantas filas y columnas tiene?
+# 2. Explóralo: `glimpse(data_trial)`, `head(data_trial)`, `View(data_trial)`
+# 3. Carga `data_sites.csv` con `read_csv()` y `here()` (está en `data/raw_data/`)
+# 4. Guárdalo en un objeto llamado `sites`
+# 5. Explora con `glimpse(sites)`: ¿cuántas filas y columnas tiene?
 # 6. Usa `View(sites)` para ver los datos visualmente (alternativamente, haz
 #    clic en los datos en el panel Environment)
 
@@ -62,7 +62,7 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 # 1. Renombra `rosenberg_pre` a `self_esteem_pre` y `rosenberg_post` a
 #    `self_esteem_post`
 # 2. Renombra `ucla_pre` a `loneliness_pre` y `ucla_post` a `loneliness_post`
-# 3. Mueve `n_sessions` justo despues de `group`
+# 3. Mueve `n_sessions` justo después de `group`
 # 4. Guarda el resultado en `data_trial_renamed`
 
 # TU_CODIGO_AQUI
@@ -72,13 +72,13 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 
 # Usando el dataset `data_trial`:
 # 1. Usa `glimpse()` para ver la estructura del dataset
-# 2. Cuantos pacientes hay en cada grupo? (usa `table()`)
+# 2. ¿Cuántos pacientes hay en cada grupo? (usa `table()`)
 # 3. Filtra los pacientes del grupo "pharmacological" con `anxiety_pre` mayor
 #    que 10
 # 4. Del resultado anterior, selecciona solo las columnas `patient_id`, `sex`,
 #    `age`, `anxiety_pre` y `anxiety_post`
 # 5. Guarda el resultado en un objeto llamado `pharm_anxiety_alta`
-# 6. Cuantas filas tiene el resultado? (usa `nrow()`)
+# 6. ¿Cuántas filas tiene el resultado? (usa `nrow()`)
 #
 # Plantilla (quita los # y completa):
 # glimpse(TU_CODIGO_AQUI)
@@ -99,7 +99,7 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 
 # 1. Ordena `data_trial` por `wellbeing_pre` de mayor a menor.
 # 2. Muestra solo las columnas `patient_id`, `group`, `wellbeing_pre`.
-# 3. Que paciente tiene el bienestar mas alto?
+# 3. ¿Qué paciente tiene el bienestar más alto?
 # 4. Guarda el resultado en un objeto.
 
 # TU_CODIGO_AQUI
@@ -110,11 +110,11 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 # Usa `if_else()` para crear una nueva columna `grupo_edad` en `data_trial`:
 #   - Si `age >= 60` -> "senior"
 #   - Si no -> "junior"
-# Despues, cuenta cuantos pacientes hay en cada categoria con `count()`.
+# Después, cuenta cuántos pacientes hay en cada categoría con `count()`.
 
 # TU_CODIGO_AQUI
 
-## EJERCICIO 8: clasificar la gravedad de la depresion ----
+## EJERCICIO 8: clasificar la gravedad de la depresión ----
 # Tiempo: 7 minutos
 
 # Crea una columna `gravedad_depresion` en `data_trial` usando `case_when()`
@@ -124,8 +124,8 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 #   - <= 14 -> "moderada"
 #   - <= 19 -> "moderadamente_grave"
 #   - resto -> "grave"
-# Guarda el resultado y usa `count()` para ver cuantos pacientes hay en cada
-# categoria.
+# Guarda el resultado y usa `count()` para ver cuántos pacientes hay en cada
+# categoría.
 
 # TU_CODIGO_AQUI
 
@@ -136,8 +136,8 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 #    data_followup <- read_csv(here("data", "raw_data", "data_clinical_trial_followup.csv"))
 # 2. Haz un `left_join()` de `data_trial` con `data_followup` por `patient_id`
 # 3. Clasifica la gravedad de ansiedad en pre, post y followup con
-#    `case_when()` (GAD-7: <= 4 minima, <= 9 leve, <= 14 moderada, resto grave)
-# 4. Cuenta el numero de pacientes en cada categoria de gravedad para cada
+#    `case_when()` (GAD-7: <= 4 mínima, <= 9 leve, <= 14 moderada, resto grave)
+# 4. Cuenta el número de pacientes en cada categoría de gravedad para cada
 #    momento (`count()`)
 # 5. Crea columnas de mejora (`anxiety_pre - anxiety_post`) y mantenimiento
 #    (`anxiety_post - anxiety_followup`) con `mutate()`
@@ -161,21 +161,21 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 #    `mutate()`
 # 5. Agrupa por grupo y sexo con `group_by()`
 # 6. Con `summarise()`, calcula la media de `depression_pre`,
-#    `depression_post` y `cambio`, y el numero de pacientes (`n()`)
+#    `depression_post` y `cambio`, y el número de pacientes (`n()`)
 # 7. Ordena el resultado de mayor a menor cambio medio con `arrange(desc())`.
-#    Que combinacion muestra mayor cambio?
+#    ¿Qué combinación muestra mayor cambio?
 
 # TU_CODIGO_AQUI
 
 ## EJERCICIO 11: preparar los datos y construir la Tabla 1 ----
 # Tiempo: 20 minutos
 
-# Los datos ya estan cargados. El objetivo es la Tabla 1 del principio del
-# bloque y el archivo con el que trabajaremos el dia 3:
+# Los datos ya están cargados. El objetivo es la Tabla 1 del principio del
+# bloque y el archivo con el que trabajaremos el día 3:
 # 1. Une `data_trial` con `data_followup` por `patient_id` (`left_join()`) y
 #    guarda el resultado en `datos_preprocesados`
 # 2. Guarda `datos_preprocesados` en `data/processed_data/preprocessed_data.csv`
-#    con `write_csv()` y `here()`: los analisis del dia 3 parten de este archivo
+#    con `write_csv()` y `here()`: los análisis del día 3 parten de este archivo
 # 3. Construye la Tabla 1: agrupa por `group` y calcula `n()` y la media y la
 #    DT de `anxiety_pre`, `anxiety_post` y `anxiety_followup`
 #    (con `.groups = "drop"`)
@@ -192,7 +192,7 @@ library(here)        # rutas desde la raiz del proyecto: here("data", "raw_data"
 # 2. Clasifica cada mejora con `if_else()` ("mejora" si es mayor que 0,
 #    "empeora" si no) en dos columnas: `cambio_pre_post` y
 #    `cambio_pre_followup`
-# 3. Cuenta cuantos pacientes mejoran y cuantos empeoran por grupo (`count()`),
+# 3. Cuenta cuántos pacientes mejoran y cuántos empeoran por grupo (`count()`),
 #    para cada una de las dos columnas
 
 # TU_CODIGO_AQUI

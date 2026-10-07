@@ -21,24 +21,24 @@
 # texto. El resultado se guarda con <- en un objeto llamado paquetes_curso.
 
 paquetes_curso <- c(
-  "tidyverse",       # importar, transformar y visualizar datos (dias 1-4)
-  "palmerpenguins",  # dataset de pinguinos (visualizacion)
-  "gapminder",       # dataset de paises (reportes)
+  "tidyverse",       # importar, transformar y visualizar datos (días 1-4)
+  "palmerpenguins",  # dataset de pingüinos (visualización)
+  "gapminder",       # dataset de países (reportes)
   "readxl",          # leer archivos de Excel
   "writexl",         # escribir archivos de Excel
   "haven",           # leer archivos de SPSS (.sav)
   "rio",             # importar/exportar cualquier formato
-  "here",            # rutas relativas a la raiz del proyecto (here())
+  "here",            # rutas relativas a la raíz del proyecto (here())
   "janitor",         # limpiar nombres de columnas
-  "psych",           # estadistica descriptiva
+  "psych",           # estadística descriptiva
   "afex",            # ANOVA
   "emmeans",         # comparaciones post-hoc
-  "effectsize",      # tamanos del efecto
+  "effectsize",      # tamaños del efecto
   "car",             # supuestos del ANOVA
   "easystats",       # report, performance, etc.
   "knitr",           # tablas en informes Quarto
   "tinytex",         # informes en PDF (opcional)
-  "pacman"           # instalar y cargar paquetes en una sola linea (p_load)
+  "pacman"           # instalar y cargar paquetes en una sola línea (p_load)
 )
 
 
