@@ -153,8 +153,8 @@ library(here)        # rutas desde la raíz del proyecto: here("data", "raw_data
 ## EJERCICIO 10: practicar group_by() + summarise() ----
 # Tiempo: 10 minutos
 
-# 1. Limpia tu environment (`rm(list = ls())`), o usa el atajo
-#    Cmd/Ctrl + Shift + 0, el icono de la escoba o Session -> Restart R
+# 1. Empieza con la sesión limpia: reinicia R con Session -> Restart R
+#    (Ctrl/Cmd + Shift + F10)
 # 2. Carga los paquetes necesarios
 # 3. Carga los datos (`data_trial`, `data_followup`)
 # 4. Crea una columna `cambio` = `depression_pre - depression_post` con
