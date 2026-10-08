@@ -80,7 +80,7 @@ Los archivos `.html` se abren directamente en el navegador (doble clic) y no nec
 
 El curso utiliza un **ensayo clínico sintético** como hilo conductor:
 
-- 300 pacientes asignados aleatoriamente a 3 grupos: **CBT (tarepia cognitivo conductual)**, **farmacológico**, **control**
+- 300 pacientes asignados aleatoriamente a 3 grupos: **CBT (terapia cognitivo-conductual)**, **farmacológico**, **control**
 - Variables: ansiedad (GAD-7), depresión (PHQ-9), bienestar, soledad (UCLA), autoestima (Rosenberg)
 - Medidas pre-tratamiento, post-tratamiento y seguimiento (followup) a 3 meses
 
