@@ -15,7 +15,23 @@
 # ==============================================================================
 
 
-# --- 1. Lista de paquetes del curso -------------------------------------------
+# --- 1. Servidor de descarga --------------------------------------------------
+# Los paquetes se descargan de CRAN, el repositorio oficial de R. options()
+# cambia un ajuste de R: aquí le decimos de qué servidor de CRAN descargarlos.
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+
+# --- 2. El paquete pacman -----------------------------------------------------
+# pacman es un paquete para instalar y cargar otros paquetes en un solo paso.
+# require() intenta cargar un paquete y devuelve TRUE si lo consigue o FALSE si
+# no lo tienes instalado. El signo ! significa "NO": !require("pacman") es TRUE
+# cuando pacman NO está instalado, y solo entonces se ejecuta install.packages().
+
+if (!require("pacman")) install.packages("pacman")
+
+
+# --- 3. Lista de paquetes del curso -------------------------------------------
 # c() ("combine") junta varios valores en un VECTOR, la estructura más básica
 # de R. Aquí juntamos los nombres de los paquetes, entre comillas porque son
 # texto. El resultado se guarda con <- en un objeto llamado paquetes_curso.
@@ -39,53 +55,42 @@ paquetes_curso <- c(
   "car",             # supuestos del ANOVA
   "easystats",       # report, performance, etc.
   "knitr",           # tablas en informes Quarto
-  "tinytex",         # informes en PDF (opcional)
-  "pacman"           # instalar y cargar paquetes en una sola línea (p_load)
+  "tinytex"          # informes en PDF (opcional)
 )
 
 
-# --- 2. Instalar solo los que faltan ------------------------------------------
-# installed.packages() devuelve una tabla con todos los paquetes que ya tienes
-# instalados en el ordenador; rownames() saca de esa tabla solo los nombres.
-# setdiff(A, B) ("set difference") devuelve lo que está en A pero NO en B:
-# es decir, los paquetes de la lista que todavía no tienes.
+# --- 4. Instalar los que faltan y comprobar que funcionan ---------------------
+# pacman::p_load() hace dos cosas con cada paquete de la lista: si no lo tienes,
+# lo instala; después lo carga, que es la prueba de que funciona.
+# El argumento char = sirve para darle los nombres dentro de un vector.
+# Devuelve TRUE o FALSE para cada paquete: TRUE si ha quedado cargado.
+# Lo guardamos en un objeto llamado cargados.
 
-paquetes_que_faltan <- setdiff(paquetes_curso, rownames(installed.packages()))
+cargados <- pacman::p_load(char = paquetes_curso)
 
-# length() cuenta cuántos elementos tiene un vector.
+
+# --- 5. Resultado -------------------------------------------------------------
+# cargados[!cargados] se queda con los paquetes que han dado FALSE.
+# names() saca sus nombres. length() cuenta cuántos hay.
 # if (...) { ... } else { ... } es una CONDICIÓN: si lo que hay entre
 # paréntesis es verdadero, R ejecuta el primer bloque; si no, el segundo.
 # paste() pega trozos de texto; collapse = ", " los separa con comas.
-# print() muestra el resultado en la consola.
-# install.packages() descarga e instala paquetes desde CRAN, el repositorio
-# oficial de R (repos = indica de qué servidor descargarlos).
+# Si sale ATENCION, avisa a Filip.
 
-if (length(paquetes_que_faltan) > 0) {
-  print(paste("Instalando:", paste(paquetes_que_faltan, collapse = ", ")))
-  install.packages(paquetes_que_faltan, repos = "https://cloud.r-project.org")
+no_cargados <- names(cargados[!cargados])
+
+if (length(no_cargados) == 0) {
+  print("Todo correcto: todos los paquetes del curso estan instalados y funcionan.")
 } else {
-  print("Ya tienes todos los paquetes del curso instalados.")
+  print(paste("ATENCION, no se han podido instalar o cargar:",
+              paste(no_cargados, collapse = ", ")))
 }
 
-
-# --- 3. Comprobar que todo está ----------------------------------------------
-# Repetimos la misma comprobación de antes, ahora DESPUÉS de instalar.
-# Si algún paquete sigue faltando (p. ej. por un fallo de descarga),
-# aparecerá aquí: avisa a Filip
-
-todavia_faltan <- setdiff(paquetes_curso, rownames(installed.packages()))
-
-# == 0 pregunta "¿es igual a cero?" y devuelve TRUE (verdadero) o FALSE (falso).
-
-if (length(todavia_faltan) == 0) {
-  print("Todo correcto: todos los paquetes del curso estan instalados.")
-} else {
-  print(paste("ATENCION, no se han podido instalar:",
-              paste(todavia_faltan, collapse = ", ")))
-}
+# Al terminar, reinicia R para empezar el día con la sesión limpia:
+# Session -> Restart R (Ctrl/Cmd + Shift + F10).
 
 
-# --- 4. (Opcional) Actualizar los paquetes que ya tenías ---------------------
+# --- 6. (Opcional) Actualizar los paquetes que ya tenías ---------------------
 # update.packages() busca en CRAN versiones más nuevas de los paquetes que ya
 # tienes y las instala; ask = FALSE hace que no pregunte paquete por paquete.
 # Solo si ya tenías paquetes de antes y quieres ponerlos al día.
