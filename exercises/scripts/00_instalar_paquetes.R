@@ -68,7 +68,7 @@ if (length(paquetes_que_faltan) > 0) {
 }
 
 
-# --- 3. Comprobar que todo esta ----------------------------------------------
+# --- 3. Comprobar que todo está ----------------------------------------------
 # Repetimos la misma comprobación de antes, ahora DESPUÉS de instalar.
 # Si algún paquete sigue faltando (p. ej. por un fallo de descarga),
 # aparecerá aquí: avisa a Filip
@@ -85,7 +85,7 @@ if (length(todavia_faltan) == 0) {
 }
 
 
-# --- 4. (Opcional) Actualizar los paquetes que ya tenias ---------------------
+# --- 4. (Opcional) Actualizar los paquetes que ya tenías ---------------------
 # update.packages() busca en CRAN versiones más nuevas de los paquetes que ya
 # tienes y las instala; ask = FALSE hace que no pregunte paquete por paquete.
 # Solo si ya tenías paquetes de antes y quieres ponerlos al día.
