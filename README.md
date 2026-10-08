@@ -95,6 +95,34 @@ Los datos están en `exercises/data/raw_data/`.
 
 ---
 
+## Descargar el material y actualizarlo
+
+El material se publica poco a poco a lo largo del curso. Hay tres formas de conseguirlo:
+
+**1. Descargar todo en un ZIP (sin instalar nada).** Botón verde `Code` → `Download ZIP` y descomprímelo. Cuando haya material nuevo, descarga otra vez el ZIP y **descomprímelo en una carpeta nueva**: si lo descomprimes encima de la anterior, puedes sobrescribir tu trabajo.
+
+**2. Descargar solo un archivo nuevo.** En GitHub, entra en el archivo (por ejemplo `slides/Day2_bloque1_student.html`) y pulsa el botón de descarga (*Download raw file*). Guárdalo en la misma carpeta que tenías.
+
+**3. Clonar el repositorio con git (recomendado).** Necesitas tener [git](https://git-scm.com/downloads) instalado. La primera vez, en la pestaña *Terminal* de RStudio (junto a *Console*), entra en tu carpeta Documentos y clona el repositorio:
+
+```bash
+cd ~/Documents
+git clone https://github.com/CIMCYC/curso-R-v2026.2.git
+```
+
+Esto crea la carpeta `curso-R-v2026.2` con todo el material. Cada vez que haya material nuevo, abre el proyecto `exercises/exercises.Rproj` y escribe en la *Terminal*:
+
+```bash
+git pull
+```
+
+`git pull` descarga **solo lo que ha cambiado** desde la última vez.
+
+> [!TIP]
+> Para que `git pull` no choque con tus cambios, guarda tu trabajo con otro nombre: abre el script del día y usa `File` → `Save As` (por ejemplo, `01_day1_mis_respuestas.R`).
+
+---
+
 ## Uso para estudiantes
 
 1. Descarga o clona este repositorio
