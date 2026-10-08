@@ -44,6 +44,21 @@ Cada sesión tiene **3 bloques**: 9:00–10:30, 11:00–12:30 y 13:00–14:00.
 
 ---
 
+## Qué no cubre el curso
+
+Es un curso de **introducción**. No enseña:
+
+- **Estadística desde cero**: se dan por sabidos los conceptos básicos (requisito del curso)
+- **ANOVA de una vía y ANOVA de medidas repetidas** como análisis completos: se presentan, pero el análisis que se hace paso a paso es el ANOVA mixto
+- **Regresión**: lineal (`lm()`), logística y otros modelos lineales generalizados (`glm()`)
+- **Modelos mixtos / multinivel** (`lme4`), **estadística bayesiana**, **análisis de potencia**, **ecuaciones estructurales (SEM)** ni **análisis factorial**
+- **Pruebas no paramétricas** aparte de la correlación de Spearman (Mann-Whitney, Wilcoxon, Kruskal-Wallis) ni **chi-cuadrado** para variables categóricas
+- **Programación más allá de lo básico**: escribir funciones propias, bucles e iteración (`for`, `map()`, `across()`), texto (`stringr`) y fechas (`lubridate`)
+
+Las lecturas recomendadas son un buen punto de partida para seguir aprendiendo.
+
+---
+
 ## Presentaciones para estudiantes
 
 Cada bloque tiene una versión para estudiantes, **sin las diapositivas de solución** de los ejercicios: `slides/DayX_bloqueY_student.html`.
