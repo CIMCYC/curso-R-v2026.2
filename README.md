@@ -103,7 +103,7 @@ El material se publica poco a poco a lo largo del curso. Hay tres formas de cons
 
 **2. Descargar solo un archivo nuevo.** En GitHub, entra en el archivo (por ejemplo `slides/Day2_bloque1_student.html`) y pulsa el botón de descarga (*Download raw file*). Guárdalo en la misma carpeta que tenías.
 
-**3. Clonar el repositorio con git (recomendado).** Necesitas tener [git](https://git-scm.com/downloads) instalado. La primera vez, en la pestaña *Terminal* de RStudio (junto a *Console*), entra en tu carpeta Documentos y clona el repositorio:
+**3. Clonar el repositorio con git (recomendado).** Necesitas tener [git](https://git-scm.com/downloads) instalado. La primera vez, en la pestaña *Terminal* de RStudio (junto a *Console*; si no la ves: `Tools` → `Terminal` → `New Terminal`, o `Option + Shift + R` en Mac / `Alt + Shift + R` en Windows), entra en tu carpeta Documentos y clona el repositorio:
 
 ```bash
 cd ~/Documents
