@@ -31,6 +31,8 @@ paquetes_curso <- c(
   "here",            # rutas relativas a la raíz del proyecto (here())
   "janitor",         # limpiar nombres de columnas
   "psych",           # estadística descriptiva
+  "corrplot",        # matriz de correlaciones en un mapa de calor
+  "sjPlot",          # tablas listas para un artículo (tab_corr)
   "afex",            # ANOVA
   "emmeans",         # comparaciones post-hoc
   "effectsize",      # tamaños del efecto
