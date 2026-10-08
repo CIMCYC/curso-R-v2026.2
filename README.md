@@ -88,6 +88,13 @@ Los datos están en `exercises/data/raw_data/`.
 
 ---
 
+## Lecturas recomendadas
+
+- ***R for Data Science*** (2.ª ed.), de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund: libro gratuito en línea sobre importar, transformar y visualizar datos con tidyverse — <https://r4ds.hadley.nz/>
+- ***Learning Statistics with R***, de Danielle Navarro: introducción a la estadística con R para estudiantes de psicología y principiantes — <https://learningstatisticswithr.com/>
+
+---
+
 ## Uso para estudiantes
 
 1. Descarga o clona este repositorio
