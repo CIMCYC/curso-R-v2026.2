@@ -44,6 +44,21 @@ Cada sesión tiene **3 bloques**: 9:00–10:30, 11:00–12:30 y 13:00–14:00.
 
 ---
 
+## Lo que aprenderás en el curso
+
+Al terminar el curso sabrás:
+
+- Trabajar con **R y RStudio** de forma organizada: proyectos, scripts, paquetes y rutas con `here()`
+- Manejar los **tipos de datos** de R: vectores, valores ausentes (`NA`), indexación y data frames
+- **Importar** datos y hacer una primera exploración
+- **Transformar** datos con tidyverse: el pipe (`|>`), `select()`, `filter()`, `arrange()`, `mutate()`, condicionales, uniones de tablas y resúmenes por grupo con `group_by()` + `summarise()`
+- **Reestructurar** datos entre formato ancho y largo, y guardar los datos procesados
+- **Analizar** datos con la fórmula de R (`VD ~ VI`): correlación, *t*-test y ANOVA mixto, comprobando los supuestos, calculando el tamaño del efecto e interpretando y reportando los resultados
+- **Visualizar** datos con ggplot2
+- Crear **informes reproducibles** con Quarto
+
+---
+
 ## Qué no cubre el curso
 
 Es un curso de **introducción**. No enseña:
@@ -107,6 +122,14 @@ Los datos están en `exercises/data/raw_data/`.
 
 - ***R for Data Science*** (2.ª ed.), de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund: libro gratuito en línea sobre importar, transformar y visualizar datos con tidyverse — <https://r4ds.hadley.nz/>
 - ***Learning Statistics with R***, de Danielle Navarro: introducción a la estadística con R para estudiantes de psicología y principiantes — <https://learningstatisticswithr.com/>
+
+---
+
+## Para aprovechar el curso
+
+- **Antes de cada clase:** revisa las diapositivas de ese día (`slides/DayX_bloqueY_student.html`)
+- **Después del día 1:** lee el documento *Buenas prácticas en R* (`R_best_practices_ES.html`; se publicará en este repositorio después del día 1)
+- **Antes del día 3:** repasa *El t-test paso a paso: de Student a R* y *ANOVA paso a paso: de Fisher a R* (carpeta `extra/`; se publicarán antes del día 3)
 
 ---
 
