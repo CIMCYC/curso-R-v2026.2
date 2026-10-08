@@ -123,6 +123,10 @@ Los datos están en `exercises/data/raw_data/`.
 - ***R for Data Science*** (2.ª ed.), de Hadley Wickham, Mine Çetinkaya-Rundel y Garrett Grolemund: libro gratuito en línea sobre importar, transformar y visualizar datos con tidyverse — <https://r4ds.hadley.nz/>
 - ***Learning Statistics with R***, de Danielle Navarro: introducción a la estadística con R para estudiantes de psicología y principiantes — <https://learningstatisticswithr.com/>
 
+Para practicar más **R base**, si te apetece:
+
+- ***fasteR: Fast Lane to Learning R!***, de Norm Matloff: tutorial gratuito de R base en lecciones cortas con ejercicios, pensado para quien empieza desde cero — <https://github.com/matloff/fasteR>
+
 ---
 
 ## Para aprovechar el curso
