@@ -63,7 +63,7 @@ Al terminar el curso sabrás:
 
 Es un curso de **introducción**. No enseña:
 
-- **Estadística desde cero**: se dan por sabidos los conceptos básicos (requisito del curso)
+- **Estadística desde cero**: para seguir el curso hacen falta conocimientos básicos de estadística
 - **ANOVA de una vía y ANOVA de medidas repetidas** como análisis completos: se presentan, pero el análisis que se hace paso a paso es el ANOVA mixto
 - **Regresión**: lineal (`lm()`), logística y otros modelos lineales generalizados (`glm()`)
 - **Modelos mixtos / multinivel** (`lme4`), **estadística bayesiana**, **análisis de potencia**, **ecuaciones estructurales (SEM)** ni **análisis factorial**
