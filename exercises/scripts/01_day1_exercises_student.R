@@ -18,6 +18,40 @@ library(here)        # rutas desde la raíz del proyecto: here("data", "raw_data
 
 
 # ==============================================================================
+# BLOQUE 1: R y RStudio, primer script
+# ==============================================================================
+
+## EJERCICIO 2: RStudio ----
+# Tiempo: 10 minutos
+
+# Abre RStudio y prueba lo siguiente:
+# 1. Escribe en la CONSOLA y explora:
+#    a. ?sum           -> ¿para qué sirve?
+#    b. help.start()   -> explora la página
+# 2. Escribe en la CONSOLA y observa el resultado:
+#    a. 2 + 2
+#    b. 10 - 3
+#    c. sqrt(16)       -> ¿qué hace esto?
+#    d. x <- 10
+#    e. y <- 5         -> ¿qué ha pasado en el Environment?
+#    f. Ejecuta: x + y -> ¿qué pasa?
+# 3. Crea un nuevo script de R:
+#    a. En el menú superior: File -> New File -> R Script
+#    b. Escribe el siguiente texto:
+#         # Mi primer script en R
+#         a <- 3
+#         b <- 7
+#         suma <- a + b
+#         suma
+#    c. Ejecuta cada línea con Ctrl/Cmd + Enter y observa los resultados en la
+#       consola
+#    d. Guarda el script con Ctrl/Cmd + S y ponle un nombre (p. ej.,
+#       practica_dia_1.R). ¿Dónde lo has guardado?
+
+# TU_CODIGO_AQUI
+
+
+# ==============================================================================
 # BLOQUE 2: calculadora, variables, tipos de datos, vectores, NA e indexación
 # ==============================================================================
 
