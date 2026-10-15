@@ -46,7 +46,7 @@
 
 ## Usar inteligencia artificial para aprender
 
-Los LLM (ChatGPT, Claude, Gemini...) son excelentes para:
+Los LLM (los modelos de lenguaje, como ChatGPT) son excelentes para:
 
 - **Simular datos**: pedir que genere un dataset con ciertas características y practicar análisis
 - **Explicar conceptos**: pedir que explique un concepto estadístico paso a paso
