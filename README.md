@@ -94,6 +94,8 @@ Los archivos `.html` se abren directamente en el navegador (doble clic) y no nec
 ```
 .
 ├── README.md                      Este documento
+├── R_best_practices_ES.html       Buenas prácticas de programación en R
+├── referencias.md                 Referencias y recursos recomendados
 │
 ├── slides/                        Presentaciones
 │   └── DayX_bloqueY_student.html  Versión estudiante (sin soluciones)
@@ -142,6 +144,17 @@ Los datos están en `exercises/data/raw_data/`.
 Para practicar más **R base**, si te apetece:
 
 - ***fasteR: Fast Lane to Learning R!***, de Norm Matloff: tutorial gratuito de R base en lecciones cortas con ejercicios, pensado para quien empieza desde cero — <https://github.com/matloff/fasteR>
+
+---
+
+## Materiales complementarios
+
+| Archivo | Descripción |
+|---------|-------------|
+| `R_best_practices_ES.html` | Buenas prácticas de programación en R |
+| `referencias.md` | Referencias, recursos y enlaces recomendados |
+| `extra/ttest_by_hand.html` | *El t-test paso a paso: de Student a R* |
+| `extra/anova_by_hand.html` | *ANOVA paso a paso: de Fisher a R* |
 
 ---
 
