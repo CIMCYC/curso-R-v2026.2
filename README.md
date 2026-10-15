@@ -98,6 +98,8 @@ Los archivos `.html` se abren directamente en el navegador (doble clic) y no nec
 ├── slides/                        Presentaciones
 │   └── DayX_bloqueY_student.html  Versión estudiante (sin soluciones)
 │
+├── extra/                         Documentos para profundizar (t-test y ANOVA paso a paso)
+│
 └── exercises/                     Ejercicios en clase
     ├── exercises.Rproj            Proyecto RStudio
     ├── data/
@@ -146,8 +148,8 @@ Para practicar más **R base**, si te apetece:
 ## Para aprovechar el curso
 
 - **Antes de cada clase:** revisa las diapositivas de ese día (`slides/DayX_bloqueY_student.html`)
-- **Después del día 1:** lee el documento *Buenas prácticas en R* (`R_best_practices_ES.html`; se publicará en este repositorio después del día 1)
-- **Antes del día 3:** repasa *El t-test paso a paso: de Student a R* y *ANOVA paso a paso: de Fisher a R* (carpeta `extra/`; se publicarán antes del día 3)
+- **Después del día 1:** lee el documento *Buenas prácticas en R* (`R_best_practices_ES.html`, en la raíz del repositorio)
+- **Para profundizar en el día 3:** *El t-test paso a paso: de Student a R* (`extra/ttest_by_hand.html`) y *ANOVA paso a paso: de Fisher a R* (`extra/anova_by_hand.html`): los dos tests calculados a mano, paso a paso, y comparados con el resultado de R
 
 ---
 
