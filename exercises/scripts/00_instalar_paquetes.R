@@ -38,8 +38,6 @@ if (!require("pacman")) install.packages("pacman")
 
 paquetes_curso <- c(
   "tidyverse",       # importar, transformar y visualizar datos (días 1-4)
-  "palmerpenguins",  # dataset de pingüinos (visualización)
-  "gapminder",       # dataset de países (reportes)
   "readxl",          # leer archivos de Excel
   "writexl",         # escribir archivos de Excel
   "haven",           # leer archivos de SPSS (.sav)
@@ -55,6 +53,13 @@ paquetes_curso <- c(
   "car",             # supuestos del ANOVA
   "easystats",       # report, performance, etc.
   "knitr",           # tablas en informes Quarto
+  "gtsummary",       # la Tabla 1 automática en informes Quarto (día 4)
+  "patchwork",       # combinar varios gráficos en una figura (día 4)
+  "ggdist",          # raincloud plots (día 4)
+  "ggthemes",        # temas de ggplot2, p. ej. Tufte (día 4)
+  "jtools",          # theme_apa() (día 4)
+  "ggsci",           # paletas de revistas científicas (día 4)
+  "harrypotter",     # paletas de las casas de Hogwarts (día 4)
   "tinytex"          # informes en PDF (opcional)
 )
 

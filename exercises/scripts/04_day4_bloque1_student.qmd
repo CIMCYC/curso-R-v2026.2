@@ -1,0 +1,524 @@
+---
+title: "Día 4 · Bloque 1 — Visualización con ggplot2"
+subtitle: "Código de las diapositivas, para ejecutarlo a la par, y el Ejercicio 1"
+author: "Tu nombre"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+    code-tools: true
+execute:
+  warning: false
+  message: false
+---
+
+## Antes de empezar
+
+Ejecuta este chunk primero: carga los paquetes, los datos del ensayo y la paleta de colores de las diapositivas.
+
+```{r}
+# install.packages(c("tidyverse", "here", "jtools", "ggsci", "harrypotter", "ggthemes",
+#                    "patchwork", "ggdist", "afex", "emmeans"))
+library(tidyverse)
+library(here)   # rutas desde la raiz del proyecto
+options(scipen = 999)
+data_trial <- read_csv(here("data", "raw_data", "data_clinical_trial.csv"))
+# paleta por defecto de todo el deck: Okabe-Ito (apta para daltonicos) en vez de los colores de serie de ggplot2
+options(ggplot2.discrete.fill   = palette.colors(palette = "Okabe-Ito")[-1],
+        ggplot2.discrete.colour = palette.colors(palette = "Okabe-Ito")[-1])
+```
+
+# Visualización de Datos
+
+## Tufte en `ggplot2`: el paquete `ggthemes`
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 5
+# el boxplot de ggplot2 tal cual sale
+ggplot(data = data_trial,
+       mapping = aes(x = group, y = anxiety_post)) +
+  geom_boxplot()
+```
+
+```{r}
+#| warning: false
+#| fig-width: 6.5
+#| fig-height: 5
+# install.packages("ggthemes")
+library(ggthemes)
+
+ggplot(data = data_trial,
+       mapping = aes(x = group, y = anxiety_post)) +
+  geom_tufteboxplot() +
+  labs(x = "Grupo", y = "Ansiedad despues (BAI)") +
+  theme_tufte(base_size = 16)
+```
+
+# La gramática de los gráficos en `ggplot2`
+
+## Las capas de ggplot2 (*lo esencial*)
+
+```{r}
+#| eval: false
+ggplot(data = mis_datos, 
+       mapping = aes(x = mi_variable_x, 
+                      y = mi_variable_y, 
+                      color = mi_variable_color)) + 
+  geom_*() 
+```
+
+## Vamos a practicar: nuestro ensayo clínico
+
+```{r}
+# los datos que limpiamos el dia 2 y analizamos el dia 3
+library(tidyverse)
+library(here)
+
+data_trial <- read_csv(here("data", "raw_data", "data_clinical_trial.csv"))
+glimpse(data_trial)
+```
+
+## Lo que ya sabemos hacer: `boxplot()` en R base
+
+```{r}
+#| fig-width: 7
+#| fig-height: 5
+# el grafico del dia 3
+boxplot(anxiety_post ~ group,
+        data = data_trial)
+```
+
+# Construir un gráfico paso a paso
+
+## El comando básico
+
+```{r}
+ggplot(data = data_trial)
+```
+
+## Paso 1: el lienzo vacío con las variables a usar
+
+```{r}
+ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post))
+```
+
+## Paso 2: añadir geometría — boxplot
+
+```{r}
+ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post)) +
+  geom_boxplot()
+```
+
+## Paso 3a: mapear el color a una variable
+
+```{r}
+ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post,
+                     fill = group)) +
+  geom_boxplot()
+```
+
+## Paso 3b: añadir los datos — `geom_jitter()`
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.6
+ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post,
+                     fill = group)) +
+  geom_boxplot(alpha = 0.7,
+               outliers = FALSE) +
+  geom_jitter(width = 0.15, alpha = 0.4)
+```
+
+## Paso 3c: estéticas propias de cada capa
+
+```{r}
+ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post,
+                     fill = group)) +
+  geom_boxplot(alpha = 0.7,
+               outliers = FALSE) +
+  geom_jitter(aes(color = sex),
+              width = 0.15, alpha = 0.6)
+```
+
+## Paso 4: Extra: añadir etiquetas
+
+```{r}
+#| fig-width: 7
+#| fig-height: 3.6
+# guardamos el grafico en un objeto
+# para seguir anadiendole capas
+grafico_ansiedad <- ggplot(data = data_trial,
+       mapping = aes(x = group,
+                     y = anxiety_post,
+                     fill = group)) +
+  geom_boxplot(alpha = 0.7,
+               outliers = FALSE) +
+  geom_jitter(width = 0.15, alpha = 0.4) +
+  labs(x     = "Grupo de tratamiento",
+       y     = "Ansiedad despues (BAI)",
+       title = "Ansiedad post por grupo",
+       fill  = "Grupo")
+grafico_ansiedad
+```
+
+## Paso 5: Extra: añadir `themes` (formatos generales)
+
+```{r}
+grafico_ansiedad +
+  theme_classic()
+```
+
+## Paso 5 (extra): `theme_apa()` — formato de publicación
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.6
+# install.packages("jtools")
+library(jtools)
+
+grafico_ansiedad +
+  theme_apa() +
+  # el eje x ya dice el grupo
+  theme(legend.position = "none")
+```
+
+## Paso 5 (extra): paletas de colores
+
+```{r}
+#| eval: false
+# viridis: viene con ggplot2;
+# legible en gris y
+# para daltonicos
+grafico_ansiedad +
+  theme_classic() +
+  scale_fill_viridis_d()
+```
+
+```{r}
+#| eval: false
+# ggsci: paletas de revistas
+# (Lancet, NEJM, Nature...)
+library(ggsci)
+grafico_ansiedad +
+  theme_classic() +
+  scale_fill_lancet()
+```
+
+```{r}
+#| eval: false
+# harrypotter: una paleta
+# por casa de Hogwarts
+library(harrypotter)
+grafico_ansiedad +
+  theme_classic() +
+  scale_fill_hp_d(
+    option = "Ravenclaw")
+```
+
+## Paso 6: Extra: añadir usar `facets`
+
+```{r}
+# para comparar pre y post hace falta
+# el formato largo (dia 3)
+datos_largo <- data_trial |>
+  pivot_longer(cols = c(anxiety_pre, anxiety_post),
+               names_to = "momento",
+               values_to = "anxiety",
+               names_prefix = "anxiety_") |>
+  mutate(momento = factor(momento,
+                          levels = c("pre", "post")))
+
+grafico_pre_post <- ggplot(data = datos_largo,
+       mapping = aes(x = group, y = anxiety,
+                     fill = group)) +
+  geom_boxplot(alpha = 0.7, outliers = FALSE) +
+  geom_jitter(width = 0.15, alpha = 0.4) +
+  labs(x = "Grupo", y = "Ansiedad (BAI)") +
+  theme_classic() +
+  theme(legend.position = "none") +
+  facet_wrap(~ momento)
+```
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 5
+grafico_pre_post
+```
+
+## Combinar gráficos: `patchwork`
+
+```{r}
+#| fig-width: 12
+#| fig-height: 3
+library(patchwork)   # install.packages("patchwork")
+
+# un segundo grafico: ansiedad antes frente a despues, una recta por grupo
+grafico_puntos <- ggplot(data = data_trial,
+                         mapping = aes(x = anxiety_pre, y = anxiety_post, color = group)) +
+  geom_point(alpha = 0.6) +            # cada paciente
+  geom_smooth(method = "lm") +         # recta de regresion (una por grupo, por el color)
+  labs(x = "Ansiedad antes (BAI)", y = "Ansiedad despues (BAI)", color = "Grupo") +
+  theme_classic()
+
+(grafico_ansiedad + theme_classic() | grafico_puntos) +   # | = lado a lado
+  plot_annotation(tag_levels = "A")                       # etiquetas A, B en los paneles
+```
+
+## Guardar el gráfico `ggsave()`
+
+```{r}
+#| eval: false
+# Guarda la ultima figura que esta en el panel de Figuras `Plots`
+ggsave(filename = here("output", "ansiedad_post_por_grupo.png"))
+
+# Guarda la figura (objeto) que se ha creado en el ambiente de trabajo,
+# con el tamano en pulgadas y la resolucion
+ggsave(filename = here("output", "ansiedad_post_por_grupo.png"),
+       plot     = nombre_del_objeto_en_el_ambiente,   # sin comillas
+       width    = 7, height = 5, dpi = 300)
+
+# El formato lo decide la extension del nombre: .png, .pdf, .svg, .tiff, .jpeg
+ggsave(filename = here("output", "ansiedad_post_por_grupo.pdf"),   # vectorial
+       plot     = nombre_del_objeto_en_el_ambiente,
+       width    = 7, height = 5)
+```
+
+# Ejercicio 1 — Visualizar el ensayo
+
+Tiempo: 20 minutos
+
+1. Haz el boxplot de `depression_post` por `group`, relleno por grupo, con los pacientes como puntos (`geom_jitter()`).
+2. Añade etiquetas en español con `labs()`, el tema `theme_classic()` y quita la leyenda (`theme(legend.position = "none")`).
+3. Haz un scatter plot de `anxiety_pre` (x) frente a `anxiety_post` (y), coloreado por `group`, con `alpha = 0.6` en los puntos y una recta por grupo con `geom_smooth(method = "lm")`. Etiquetas con `labs()`.
+4. *Extra*: pon `depression_pre` y `depression_post` en formato largo (`pivot_longer()`), separa el boxplot por momento con `facet_wrap()` y guárdalo en `output/` con `ggsave()`.
+
+## Ejercicio 1 — boxplot de depresión
+
+```{r}
+# TU_CODIGO_AQUI
+```
+
+## Ejercicio 1 — scatter plot pre / post
+
+```{r}
+# TU_CODIGO_AQUI
+```
+
+## Ejercicio 1 — extra: facetas y guardar
+
+```{r}
+# TU_CODIGO_AQUI
+```
+
+# Otros gráficos del ensayo
+
+## Volvemos al modelo del día 3: ¿sus residuos son normales?
+
+```{r}
+#| warning: false
+# el ANOVA mixto del dia 3 (afex), sobre los datos largos del Paso 6
+library(afex)
+anova_mixto <- aov_car(anxiety ~ group * momento + Error(patient_id / momento),
+                       data = datos_largo)
+
+# los residuos del modelo, en un data frame: ggplot2 siempre parte de uno
+residuos <- tibble(residuo = residuals(anova_mixto))
+```
+
+## Histograma de los residuos: R base vs `ggplot2`
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3.6
+# R base (dia 3): una linea
+hist(x = residuals(anova_mixto))
+```
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 3.6
+# densidad en vez de conteo, para superponer la normal
+ggplot(data = residuos, mapping = aes(x = residuo)) +
+  geom_histogram(mapping = aes(y = after_stat(density)),
+                 bins = 30, fill = "grey75",
+                 color = "white") +
+  # la curva normal con la media y la SD de los residuos
+  stat_function(fun  = dnorm,
+                args = list(mean = mean(residuos$residuo),
+                            sd   = sd(residuos$residuo)),
+                color = "firebrick", linewidth = 1) +
+  labs(x = "Residuo", y = "Densidad") +
+  theme_minimal()
+```
+
+## Q-Q plot de los residuos: R base vs `ggplot2`
+
+```{r}
+#| fig-width: 5
+#| fig-height: 3.6
+# R base (dia 3): dos lineas
+qqnorm(y = residuals(anova_mixto))
+qqline(y = residuals(anova_mixto))
+```
+
+```{r}
+#| fig-width: 6.5
+#| fig-height: 3.6
+# sample: la variable que se compara con la normal
+ggplot(data = residuos, mapping = aes(sample = residuo)) +
+  stat_qq(alpha = 0.4) +                      # los puntos
+  stat_qq_line(color = "firebrick",   # recta de referencia
+               linewidth = 1) +
+  labs(x = "Cuantiles teoricos (normal)",
+       y = "Cuantiles de los residuos") +
+  theme_minimal()
+```
+
+## Violin plot — forma de la distribución
+
+```{r}
+#| fig-width: 9
+#| fig-height: 3.3
+# violin + boxplot combinados: forma de la distribucion + resumen
+ggplot(data = data_trial,
+       mapping = aes(x = group, y = anxiety_post, fill = group)) +
+  geom_violin(alpha = 0.5) +             # la forma: densidad en espejo
+  geom_boxplot(width = 0.2,              # estrecho, dentro del violin
+               alpha = 0.8) +
+  labs(x = "Grupo", y = "Ansiedad despues (BAI)") +
+  theme_minimal() +
+  theme(legend.position = "none")        # el eje x ya dice el grupo
+```
+
+## Gráfico de barras con barras de error
+
+```{r}
+# 1. media y error estandar por grupo: group_by() + summarise() del dia 2
+resumen_ansiedad <- data_trial |>
+  group_by(group) |>
+  summarise(media = mean(anxiety_post),
+            ee    = sd(anxiety_post) / sqrt(n()))   # error estandar = dt / raiz(n)
+
+# 2. una barra por grupo (geom_col usa el valor tal cual, no cuenta) + su error
+ggplot(data = resumen_ansiedad,
+       mapping = aes(x = group, y = media, fill = group)) +
+  geom_col(alpha = 0.7) +
+  geom_errorbar(mapping = aes(ymin = media - ee,   # extremo inferior: media - 1 EE
+                              ymax = media + ee),  # extremo superior: media + 1 EE
+                width = 0.2) +                     # anchura de los topes
+  labs(x = "Grupo", y = "Ansiedad media despues (BAI)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## El gráfico del ANOVA mixto: pre y post por grupo
+
+```{r}
+#| fig-width: 9
+#| fig-height: 4.6
+# los datos_largo del Paso 6: stat_summary() resume los datos de cada
+# grupo x momento al vuelo (media, intervalo) y los dibuja con el geom que le digas
+ggplot(data = datos_largo,
+       mapping = aes(x = momento, y = anxiety,
+                     color = group,     # un color por grupo
+                     group = group)) +  # y una linea por grupo (sin esto no une los puntos)
+  stat_summary(fun.data = mean_cl_normal,   # media + IC 95 % (normal)
+               geom     = "errorbar",       # dibujado como barra de error
+               width    = 0.1) +            # anchura de los topes
+  stat_summary(fun       = mean,            # la media...
+               geom      = "line",          # ...unida por lineas
+               linewidth = 1) +
+  stat_summary(fun  = mean,                 # y como punto
+               geom = "point",
+               size = 3) +
+  labs(x = "Momento", y = "Ansiedad (BAI), media e IC 95 %", color = "Grupo") +
+  theme_classic()
+```
+
+## Raincloud plot: pre y post por grupo (`ggdist`)
+
+```{r}
+#| fig-width: 11
+#| fig-height: 4.6
+# install.packages("ggdist")
+library(ggdist)
+
+grafico_raincloud <- ggplot(data = datos_largo,
+                            mapping = aes(x = momento, y = anxiety, fill = momento)) +
+  # la NUBE: media densidad, a la derecha de cada momento
+  ggdist::stat_halfeye(adjust        = 0.6,    # suavizado de la densidad (< 1 = mas detalle)
+                       width         = 0.5,    # anchura maxima de la nube
+                       justification = -0.3,   # la desplaza a la derecha, fuera de la caja
+                       .width        = 0,      # sin intervalo bajo la nube
+                       point_colour  = NA,     # sin el punto de la mediana (lo pone la caja)
+                       alpha         = 0.7) +  # transparencia
+  # la CAJA: el boxplot de siempre, estrecho
+  geom_boxplot(width    = 0.12,        # estrecho, para que quepa entre nube y lluvia
+                       outliers = FALSE,       # los extremos ya estan en la lluvia
+                       alpha    = 0.8) +
+  # la LLUVIA: un punto por paciente, apilados a la izquierda
+  ggdist::stat_dots(side          = "left",      # a la izquierda de la caja
+                    justification = 1.2,         # la separa de la caja
+                    binwidth      = 0.3,         # anchura de cada fila de puntos (en unidades de BAI)
+                    dotsize       = 0.9,         # tamano del punto
+                    alpha         = 0.5,
+                    overflow      = "compress") +  # si no caben, los aprieta en vez de salirse
+  facet_wrap(~ group) +                  # un panel por grupo
+  labs(x = "Momento", y = "Ansiedad (BAI)") +
+  theme_classic(base_size = 14) +
+  theme(legend.position = "none")        # el eje x ya dice el momento
+grafico_raincloud
+```
+
+## Raincloud + las predicciones del modelo
+
+```{r}
+#| fig-width: 12
+#| fig-height: 4.6
+library(afex)      # aov_car()
+library(emmeans)   # emmeans()
+
+# 1. el modelo del dia 3 y sus medias estimadas por grupo y momento
+anova_mixto   <- aov_car(anxiety ~ group * momento + Error(patient_id / momento),
+                         data = datos_largo)
+medias_modelo <- emmeans(object = anova_mixto,
+                         specs  = ~ momento | group) |>   # medias de momento dentro de cada grupo
+  as_tibble()                                             # tabla: emmean, lower.CL, upper.CL...
+
+# 2. dos capas mas sobre el raincloud, con los datos del MODELO en vez de los pacientes
+grafico_raincloud +
+  geom_line(data        = medias_modelo,              # otra tabla para esta capa
+            mapping     = aes(x = momento, y = emmean,
+                              group = group),         # una linea por grupo
+            inherit.aes = FALSE,                      # no hereda fill = momento del raincloud
+            color       = "firebrick",             # un color fijo con nombre de R
+            linewidth   = 0.9,
+            alpha       = 0.8) +
+  geom_pointrange(data        = medias_modelo,
+                  mapping     = aes(x = momento, y = emmean,
+                                    ymin = lower.CL,   # IC 95 % del modelo
+                                    ymax = upper.CL),
+                  inherit.aes = FALSE,
+                  color       = "firebrick",             # un color fijo con nombre de R
+                  size        = 0.3,                  # punto pequeno: no tapa el intervalo
+                  linewidth   = 1.1,                  # grosor del intervalo
+                  alpha       = 0.9)
+```
+
+## Información de la sesión
+
+```{r}
+sessionInfo()
+```

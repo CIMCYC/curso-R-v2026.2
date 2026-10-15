@@ -1,0 +1,109 @@
+---
+title: "Clinical trial report: three treatments for anxiety"
+subtitle: "Día 4 · Bloque 2 — Ejercicio 3"
+author: "Your name"
+date: today
+lang: en
+format:
+  html:
+    toc: true
+    embed-resources: true
+    code-fold: true
+  docx:
+    echo: false        # en Word no se muestra el codigo, solo el informe
+bibliography: references.bib
+csl: apa.csl
+execute:
+  warning: false
+  message: false
+---
+
+::: {.callout-tip title="Cómo funciona este ejercicio"}
+- Cada apartado tiene un cuadro como este. Cada viñeta empieza por lo que tienes que hacer: **crea un chunk** (código R), **escribe texto** (Markdown) o **escribe texto con código en línea** (texto con números que salen de R). Borra el cuadro cuando hayas terminado el apartado.
+- El informe va **en inglés**: títulos, texto, pies de tabla y figura, etiquetas de los ejes.
+- Un chunk se inserta con `Ctrl/Cmd + Shift + I`; ponle nombre con `#| label:`.
+- Casi todo el código ya lo tienes: cópialo de los ejercicios anteriores (`exercises/scripts/`) y de las diapositivas de hoy.
+- El resultado a reproducir está publicado en HTML y Word (`04_day4_bloque2_solutions.html` / `.docx`). El `.qmd` de la solución se publica después de la sesión.
+- **Render** genera el HTML; *Render → Render Word* genera el Word (sin código).
+:::
+
+## Introduction
+
+::: {.callout-tip title="Qué hacer"}
+- **Escribe un párrafo** de dos o tres frases: qué compara el ensayo (CBT, pharmacological treatment, control), qué se mide (anxiety, BAI) y cuándo (before and after treatment). Cita el BAI con `[@beck1988]`.
+- **Añade un callout** (`::: {.callout-note}`) que diga que los datos son sintéticos, simulados para el curso.
+:::
+
+## Data
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** que cargue `tidyverse`, `here`, `afex` y `emmeans`, ponga `options(scipen = 999, width = 120)`, lea los datos (`read_csv(here("data", "raw_data", "data_clinical_trial.csv"))`) y guarde el número de pacientes en un objeto (`nrow()`).
+- **Escribe una frase con código en línea** que diga cuántos pacientes incluye el ensayo (el objeto de arriba) y cite el software: R `[@rcore]`, RStudio `[@rstudio]` y los paquetes `[@afex]`, `[@emmeans]`, `[@ggplot2]`.
+- Claves disponibles en `references.bib`: `beck1988`, `holm1979`, `rcore`, `rstudio`, `afex`, `emmeans`, `ggplot2`, `gtsummary`.
+:::
+
+## Table 1: the sample by group
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** con la Tabla 1 del día 2: `group_by(group)` + `summarise()` con n, media y DT de `anxiety_pre` y `anxiety_post`, mostrada con `knitr::kable()` y `col.names` en inglés. Opciones del chunk: `#| label: tbl-descriptivos` y `#| tbl-cap: "..."`. Código: `02_day2_exercises_solutions.R`, Ejercicio 11.
+- **Escribe una frase** que cite la tabla con `@tbl-descriptivos`.
+:::
+
+## Figure 1: anxiety before and after treatment
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** que ponga `anxiety_pre` y `anxiety_post` en formato largo (`pivot_longer()`) y dibuje el raincloud del bloque 1, un panel por grupo, con los ejes en inglés. Opciones: `#| label: fig-ansiedad` y `#| fig-cap: "..."`. Código: `04_day4_bloque1_student.qmd`, "Paso 6" y "Raincloud plot".
+- **Escribe una frase** que cite la figura con `@fig-ansiedad` y diga qué se ve.
+:::
+
+## Analysis: does the change in anxiety depend on the treatment?
+
+::: {.callout-tip title="Qué hacer"}
+- **Escribe una frase** que presente el diseño: group (entre sujetos) × time (intra), así que el análisis es el ANOVA mixto del día 3 y lo que importa es la interacción.
+:::
+
+### The model
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** con el ANOVA mixto, `aov_car(anxiety ~ group * momento + Error(patient_id / momento), data = datos_largo)`, que imprima `summary(anova_mixto)` y guarde la tabla: `tabla_mixto <- summary(anova_mixto)$univariate.tests`. Código: `03_day3_exercises_solutions.R`, Ejercicio 6.
+:::
+
+### Assumptions
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** con el histograma y el QQ plot de los residuos (`residuals(anova_mixto)`) en R base, como el día 3: `hist()`, `qqnorm()` + `qqline()`; con `par(mfrow = c(1, 2))` al principio del chunk salen lado a lado. Opciones: `#| label: fig-supuestos` y `#| fig-cap: "..."`. Código: `03_day3_exercises_solutions.R`, Ejercicio 5.
+- **Escribe una frase** que cite la figura con `@fig-supuestos` y diga si los residuos tienen buena pinta.
+:::
+
+### Results
+
+::: {.callout-tip title="Qué hacer"}
+- **Escribe una frase con código en línea** con el resultado de la interacción: *F*(gl, gl) = valor, *p* = valor. Cada número sale de `tabla_mixto` con `[fila, columna]`, como en la diapositiva "Código en línea (2)". Fíjate en la frase del informe renderizado.
+- Se escribe a mano porque `report()` no sabe reportar el ANOVA mixto (sí la correlación y el *t*-test del día 3).
+- **Crea un chunk** con la Tabla 2, el cambio pre → post dentro de cada grupo: `emmeans(~ momento | group)` + `pairs(adjust = "holm")` + `knitr::kable()`. Opciones: `#| label: tbl-cambio` y `#| tbl-cap: "..."`. Código: `03_day3_exercises_solutions.R`, Ejercicio 6.
+- **Crea un chunk** con la Tabla 3, los grupos comparados en cada momento (antes y después): igual que la Tabla 2 pero con `emmeans(~ group | momento)`. Opciones: `#| label: tbl-grupos` y `#| tbl-cap: "..."`.
+- **Escribe una frase** que cite las dos tablas (`@tbl-cambio`, `@tbl-grupos`) y a Holm (`[@holm1979]`): ¿cómo cambia cada grupo, y en qué momento difieren los grupos?
+- EXTRA: los dos efectos principales, con código en línea de la misma manera.
+:::
+
+## Conclusion
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un chunk** con la media de `anxiety_post` por grupo (`group_by()` + `summarise()`).
+- **Escribe dos frases con código en línea**: las tres medias, y la respuesta a la pregunta del informe.
+:::
+
+## References
+
+::: {.callout-tip title="Qué hacer"}
+- Nada que escribir: la lista se genera sola con las claves citadas, en el div de abajo.
+:::
+
+::: {#refs}
+:::
+
+## Session information for reproducibility
+
+::: {.callout-tip title="Qué hacer"}
+- **Crea un último chunk** con `sessionInfo()`: qué R y qué paquetes produjeron el informe.
+:::

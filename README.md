@@ -38,9 +38,9 @@ Cada sesión tiene **3 bloques**: 9:00–10:30, 11:00–12:30 y 13:00–14:00.
 - **Bloque 3:** ANOVA mixto
 
 ### Día 4 — Visualización de datos y reportes de investigación
-- Visualización de datos con ggplot2 y la gramática de gráficos
-- Reportes reproducibles con Quarto
-- Resolución de dudas y problemas
+- **Bloque 1:** Visualización de datos con ggplot2: la gramática de gráficos, un gráfico paso a paso, temas y paletas, `facet_wrap()`, `patchwork`, raincloud plots, `ggsave()`
+- **Bloque 2:** Reportes reproducibles con Quarto: YAML, chunks, Markdown, código en línea, tablas y figuras numeradas, bibliografía, salida a HTML y Word
+- **Bloque 3:** Ejercicio final (el informe del ensayo clínico en Quarto); comentarios, preguntas y siguientes pasos
 
 ---
 
@@ -82,6 +82,8 @@ Cada bloque tiene una versión para estudiantes, **sin las diapositivas de soluc
 |-----|----------------|
 | Día 1 | `Day1_bloque1_student.html`, `Day1_bloque2_student.html`, `Day1_bloque3_student.html` |
 | Día 2 | `Day2_bloque1_student.html`, `Day2_bloque2_student.html`, `Day2_bloque3_student.html` |
+| Día 3 | `Day3_bloque1_student.html`, `Day3_bloque2_student.html`, `Day3_bloque3_student.html` |
+| Día 4 | `Day4_bloque1_student.html`, `Day4_bloque2_student.html` |
 
 Los archivos `.html` se abren directamente en el navegador (doble clic) y no necesitan conexión.
 
@@ -101,8 +103,20 @@ Los archivos `.html` se abren directamente en el navegador (doble clic) y no nec
     ├── data/
     │   ├── raw_data/              Datos originales (solo lectura)
     │   └── processed_data/        Datos preprocesados
-    └── scripts/                   Scripts de ejercicios
+    ├── output/                    Figuras guardadas con ggsave() (día 4)
+    └── scripts/                   Scripts de ejercicios (.R) y documentos Quarto (.qmd, día 4)
 ```
+
+### Material del día 4
+
+En `exercises/scripts/`:
+
+- `04_day4_bloque1_student.qmd`: el código de las diapositivas del bloque 1 (ggplot2), para ir ejecutándolo en clase, con el Ejercicio 1 al final
+- `04_day4_bloque2_student.qmd`: el esqueleto del informe del ensayo clínico (Ejercicio 3, final), con las instrucciones de cada apartado en el propio documento. Se escribe en inglés y se renderiza a HTML y a Word
+- `04_day4_bloque2_solutions.html` y `04_day4_bloque2_solutions.docx`: el informe terminado, el resultado a reproducir (el `.qmd` de la solución se publica después de la sesión)
+- `references.bib` y `apa.csl`: la bibliografía del informe y el estilo de citas APA
+
+En `exercises/data/raw_data/`, `data_clinical_trial_replication.csv` es una "replicación" del ensayo con otros pacientes y otros resultados: sirve para ver cómo el informe se actualiza solo al cambiar el fichero de datos.
 
 ---
 
@@ -178,8 +192,8 @@ git pull
 
 Los materiales se publican de forma progresiva para que los estudiantes no vean las soluciones antes de intentar los ejercicios por su cuenta:
 
-- **Antes de cada sesión:** se publican las presentaciones en versión estudiante (`slides/DayX_bloqueY_student.html`) y los scripts `exercises/scripts/*_student.R`
-- **Después de cada sesión:** se publican los scripts `exercises/scripts/*_solutions.R` en la misma carpeta
+- **Antes de cada sesión:** se publican las presentaciones en versión estudiante (`slides/DayX_bloqueY_student.html`) y los scripts `exercises/scripts/*_student.R` (el día 4, los documentos `*_student.qmd`)
+- **Después de cada sesión:** se publican los scripts `exercises/scripts/*_solutions.R` (el día 4, los `*_solutions.qmd`) en la misma carpeta
 
 ---
 
