@@ -1,0 +1,237 @@
+---
+title: "Clinical trial report: three treatments for anxiety"
+subtitle: "Día 4 · Bloque 2 — Ejercicio 3 (SOLUCIONES)"
+author: "Filip Andras - CIMCYC, Universidad de Granada"
+date: today
+lang: en
+format:
+  html:
+    toc: true
+    embed-resources: true
+    echo: false        # el informe publicado no muestra el codigo (solo el resultado)
+  docx:
+    echo: false
+bibliography: references.bib
+csl: apa.csl
+execute:
+  warning: false
+  message: false
+---
+
+## Introduction
+
+A randomised clinical trial compared two treatments for anxiety, cognitive-behavioural therapy (CBT) and pharmacological treatment, against a control group. Anxiety was measured with the Beck Anxiety Inventory (BAI) [@beck1988] before and after treatment. This report describes the sample, visualises the change and tests whether the change in anxiety depends on the treatment.
+
+::: {.content-visible when-format="html"}
+::: callout-note
+## Synthetic data
+
+The data are **synthetic**: they were simulated for the course *Introducción a la programación y análisis de datos en R* (CIMCYC, Universidad de Granada) to practise the full workflow, from data to report. No real patients took part, and no clinical conclusion should be drawn from the results.
+:::
+:::
+
+::: {.content-visible when-format="docx"}
+*Note.* The data are **synthetic**: they were simulated for the course *Introducción a la programación y análisis de datos en R* (CIMCYC, Universidad de Granada) to practise the full workflow, from data to report. No real patients took part, and no clinical conclusion should be drawn from the results.
+:::
+
+## Data
+
+```{r}
+#| label: datos
+# paquetes y datos: el documento se ejecuta en una sesion nueva, asi que
+# tiene que cargarlo todo el mismo
+library(tidyverse)
+library(here)       # rutas desde la raiz del proyecto
+library(afex)       # aov_car()
+library(emmeans)    # emmeans()
+library(ggdist)     # stat_halfeye(), stat_dots()
+
+# sin notacion cientifica (0.000001 en vez de 1e-06) y salida ancha, como en todos los scripts del curso
+options(scipen = 999, width = 120)
+
+# la paleta de las diapositivas
+options(ggplot2.discrete.fill   = palette.colors(palette = "Okabe-Ito")[-1],
+        ggplot2.discrete.colour = palette.colors(palette = "Okabe-Ito")[-1])
+
+data_trial <- read_csv(here("data", "raw_data", "data_clinical_trial.csv"))
+
+# numeros para el texto
+n_pacientes <- nrow(data_trial)
+n_por_grupo <- data_trial |> count(group)
+```
+
+All analyses were run in R [@rcore], using RStudio [@rstudio] as the development environment, with the packages afex [@afex], emmeans [@emmeans], ggplot2 [@ggplot2] and gtsummary [@gtsummary]; the versions are listed in the session information at the end.
+
+The trial included `r n_pacientes` patients, allocated to three groups of `r n_por_grupo$n[1]`, `r n_por_grupo$n[2]` and `r n_por_grupo$n[3]` patients (`r paste(n_por_grupo$group, collapse = ", ")`). @tbl-descriptivos summarises the sample before and after treatment.
+
+## Table 1: the sample by group
+
+```{r}
+#| label: tbl-descriptivos
+#| tbl-cap: "Anxiety (BAI) by treatment group before and after treatment: n, mean and SD"
+# la Tabla 1 del dia 2 (bloque 3): group_by() + summarise(), y knitr::kable() para el informe
+tabla_1 <- data_trial |>
+  group_by(group) |>
+  summarise(n          = n(),
+            media_pre  = round(mean(anxiety_pre), 1),
+            dt_pre     = round(sd(anxiety_pre), 1),
+            media_post = round(mean(anxiety_post), 1),
+            dt_post    = round(sd(anxiety_post), 1))
+
+knitr::kable(tabla_1,
+             col.names = c("Group", "n", "Mean before", "SD before", "Mean after", "SD after"))
+```
+
+## Figure 1: anxiety before and after treatment
+
+```{r}
+#| label: fig-ansiedad
+#| fig-cap: "Anxiety (BAI) before and after treatment in each group. Cloud: density; box: median and quartiles; dots: individual patients."
+#| fig-width: 9
+#| fig-height: 4.5
+# formato largo (dia 3): una fila por paciente y momento
+datos_largo <- data_trial |>
+  pivot_longer(cols = c(anxiety_pre, anxiety_post),
+               names_to = "momento", values_to = "anxiety",
+               names_prefix = "anxiety_") |>
+  mutate(momento = factor(momento, levels = c("pre", "post"),
+                          labels = c("Before", "After")))
+
+# raincloud (bloque 1): nube + caja + lluvia, guardado como objeto para reutilizarlo
+grafico_raincloud <- ggplot(data    = datos_largo,
+                            mapping = aes(x    = momento,
+                                          y    = anxiety,
+                                          fill = momento)) +
+  # la NUBE: media densidad, a la derecha de cada momento
+  stat_halfeye(adjust        = 0.6,    # suavizado de la densidad (< 1 = mas detalle)
+               width         = 0.5,    # anchura maxima de la nube
+               justification = -0.3,   # la desplaza a la derecha, fuera de la caja
+               .width        = 0,      # sin intervalo bajo la nube
+               point_colour  = NA,     # sin el punto de la mediana (lo pone la caja)
+               alpha         = 0.7) +  # transparencia
+  # la CAJA: el boxplot de siempre, estrecho
+  geom_boxplot(width    = 0.12,        # estrecho, para que quepa entre nube y lluvia
+               outliers = FALSE,       # los extremos ya estan en la lluvia
+               alpha    = 0.8) +
+  # la LLUVIA: un punto por paciente, apilados a la izquierda
+  stat_dots(side          = "left",      # a la izquierda de la caja
+            justification = 1.2,         # la separa de la caja
+            binwidth      = 0.3,         # anchura de cada fila de puntos (en unidades de BAI)
+            dotsize       = 0.9,         # tamano del punto
+            alpha         = 0.5,
+            overflow      = "compress") +  # si no caben, los aprieta en vez de salirse
+  facet_wrap(~ group) +                  # un panel por grupo
+  labs(x = "Time", y = "Anxiety (BAI)") +
+  theme_classic(base_size = 14) +
+  theme(legend.position = "none")        # el eje x ya dice el momento
+grafico_raincloud
+```
+
+As @fig-ansiedad shows, the three groups are similar before treatment; afterwards, the control group remains above the two treated groups.
+
+## Analysis: does the change in anxiety depend on the treatment?
+
+### The model
+
+The design has one between-subjects factor (group: CBT, pharmacological, control) and one within-subjects factor (time: before vs. after), so the question is a **mixed ANOVA** (Day 3): the effect of interest is the **group × time interaction**, i.e. whether the change from before to after differs between groups.
+
+```{r}
+#| label: modelo-anova
+# ANOVA mixto (dia 3): grupo (entre) x momento (intra), un paciente = patient_id
+anova_mixto <- aov_car(anxiety ~ group * momento + Error(patient_id / momento),
+                       data = datos_largo)
+
+# la tabla del ANOVA guardada como objeto: en el texto sacamos cada numero con [fila, columna]
+tabla_mixto <- summary(anova_mixto)$univariate.tests
+```
+
+::: {.content-visible when-format="html"}
+```{r}
+#| label: tabla-anova
+# la tabla del ANOVA, tal cual la imprime R (solo en el HTML: en Word es demasiado ancha)
+summary(anova_mixto)
+```
+:::
+
+### Assumptions
+
+```{r}
+#| label: fig-supuestos
+#| fig-cap: "Residuals of the mixed ANOVA. Left: histogram; right: normal Q-Q plot."
+#| fig-width: 10
+#| fig-height: 4.5
+# los graficos de residuos del dia 3, en R base; par(mfrow) pone los dos lado a lado
+par(mfrow = c(1, 2))
+hist(x = residuals(anova_mixto), main = "", xlab = "Residual")
+qqnorm(y = residuals(anova_mixto), main = "")
+qqline(y = residuals(anova_mixto))
+```
+
+@fig-supuestos shows residuals that are close to normal, with a slightly short lower tail, and no pattern that would question the model. Sphericity is not an issue with only two levels of the within-subjects factor (a single difference, after − before).
+
+### Results
+
+Anxiety decreased from before to after treatment overall, main effect of time: *F*(`r tabla_mixto["momento", "num Df"]`, `r tabla_mixto["momento", "den Df"]`) = `r round(tabla_mixto["momento", "F value"], 2)`, *p* `r format.pval(tabla_mixto["momento", "Pr(>F)"], eps = 0.001, digits = 2)`, η²~g~ = `r round(anova_mixto$anova_table["momento", "ges"], 2)`; and the groups differed on average, main effect of group: *F*(`r tabla_mixto["group", "num Df"]`, `r tabla_mixto["group", "den Df"]`) = `r round(tabla_mixto["group", "F value"], 2)`, *p* `r format.pval(tabla_mixto["group", "Pr(>F)"], eps = 0.001, digits = 2)`, η²~g~ = `r round(anova_mixto$anova_table["group", "ges"], 2)`. Crucially, the **group × time interaction** was significant, *F*(`r tabla_mixto["group:momento", "num Df"]`, `r tabla_mixto["group:momento", "den Df"]`) = `r round(tabla_mixto["group:momento", "F value"], 2)`, *p* `r format.pval(tabla_mixto["group:momento", "Pr(>F)"], eps = 0.001, digits = 2)`, η²~g~ = `r round(anova_mixto$anova_table["group:momento", "ges"], 2)`: the change in anxiety depended on the treatment.
+
+Every number in that sentence is inline code that indexes `tabla_mixto` with `[row, column]`; it is written by hand because, unlike the correlation and the *t*-test (Day 3), a mixed ANOVA cannot yet be reported automatically with `easystats::report()`. To unpack the interaction, @tbl-cambio reports the before − after change within each group (simple effects of time), and @tbl-grupos compares the three groups at each time point, before and after treatment; both with the Holm correction [@holm1979].
+
+```{r}
+#| label: tbl-cambio
+#| tbl-cap: "Change in anxiety (before - after) within each group: simple effects of time (Holm correction)"
+# medias por momento DENTRO de cada grupo (| = "dentro de"), y pre frente a post
+cambio_por_grupo <- emmeans(object = anova_mixto, specs = ~ momento | group)
+pairs(x = cambio_por_grupo, adjust = "holm") |>
+  as_tibble() |>
+  select(group, contrast, estimate, SE, p.value) |>
+  mutate(p.value = format.pval(p.value, eps = 0.001, digits = 2)) |>   # "<0.001" en vez de 0.000
+  knitr::kable(digits = 3,
+               col.names = c("Group", "Comparison", "Mean difference", "*SE*", "*p* (Holm)"))
+```
+
+```{r}
+#| label: tbl-grupos
+#| tbl-cap: "Differences between groups at each time point, before and after treatment (Holm correction)"
+# los tres grupos EN CADA momento (| = "dentro de")
+grupos_por_momento <- emmeans(object = anova_mixto, specs = ~ group | momento)
+pairs(x = grupos_por_momento, adjust = "holm") |>
+  as_tibble() |>
+  select(momento, contrast, estimate, SE, p.value) |>
+  mutate(p.value = format.pval(p.value, eps = 0.001, digits = 2)) |>   # "<0.001" en vez de 0.000
+  knitr::kable(digits = 3,
+               col.names = c("Time", "Comparison", "Mean difference", "*SE*", "*p* (Holm)"))
+```
+
+```{r}
+#| label: numeros-cambio
+# los numeros del cambio por grupo, para el texto
+cambios   <- pairs(x = cambio_por_grupo, adjust = "holm") |> as_tibble()
+cambio_de <- function(g) round(cambios$estimate[cambios$group == g], 1)
+```
+
+Anxiety fell by `r cambio_de("CBT")` points in the CBT group and by `r cambio_de("pharmacological")` points in the pharmacological group, against `r cambio_de("control")` points in the control group (@tbl-cambio). Before treatment, no group differed from another; after treatment, all three pairwise differences were significant (@tbl-grupos). 
+
+## Conclusion
+
+```{r}
+#| label: medias-grupo
+medias <- data_trial |>
+  group_by(group) |>
+  summarise(media = round(mean(anxiety_post), 1))
+media_de <- function(g) medias$media[medias$group == g]
+```
+
+After treatment, mean anxiety was `r media_de("CBT")` points in the CBT group, `r media_de("pharmacological")` in the pharmacological group and `r media_de("control")` in the control group. Both treatments reduced anxiety more than the control condition did, CBT somewhat more than medication, as the group × time interaction shows; the three-month follow-up is not yet included in this report.
+
+## References
+
+::: {#refs}
+:::
+
+## Session information for reproducibility
+
+Which R, which packages and which versions produced this report: anyone can check them if a result does not reproduce.
+
+```{r}
+#| label: session-info
+sessionInfo()
+```
